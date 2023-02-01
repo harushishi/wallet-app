@@ -11,13 +11,13 @@ public class Profile {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
     @Column(name = "username", nullable = false, unique = true)
     private String userName;
 
-    @Column(name = "phone_number", nullable = false, unique = true)
+    @Column(name = "phone_number", unique = true)
     private Long phoneNumber;
     @OneToOne(mappedBy = "profile")
     private User user;

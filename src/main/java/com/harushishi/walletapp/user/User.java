@@ -12,7 +12,7 @@ public class User {
     @GeneratedValue
     private long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -26,4 +26,8 @@ public class User {
     @JoinColumn(name = "wallet_id", referencedColumnName = "id")
     private Wallet wallet;
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }
