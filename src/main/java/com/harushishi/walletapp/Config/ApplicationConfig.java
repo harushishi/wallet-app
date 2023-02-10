@@ -1,6 +1,6 @@
 package com.harushishi.walletapp.Config;
 
-import com.harushishi.walletapp.user.UserRepository;
+import com.harushishi.walletapp.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

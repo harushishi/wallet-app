@@ -1,8 +1,8 @@
-package com.harushishi.walletapp.user;
+package com.harushishi.walletapp.User;
 
 import com.harushishi.walletapp.Auth.Role;
 import com.harushishi.walletapp.Wallet.Wallet;
-import com.harushishi.walletapp.profile.Profile;
+import com.harushishi.walletapp.Profile.Profile;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Data
 @Builder
 @Entity
 @Table(name = "users")
@@ -40,9 +39,26 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  public User(String email, String password) {
+  public User(String email, String password, Role role) {
     this.email = email;
     this.password = password;
+    this.role = role;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setProfile(Profile profile) {
+    this.profile = profile;
+  }
+
+  public void setWallet(Wallet wallet) {
+    this.wallet = wallet;
   }
 
   @Override
