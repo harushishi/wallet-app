@@ -24,18 +24,37 @@ public class Profile {
   private String userName;
   @Column(name = "phone_number", unique = true)
   private Long phoneNumber;
-  @OneToOne(mappedBy = "profile")
+  @OneToOne
+  @JoinColumn(name = "user_id")
   private User user;
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
   private Address address;
 
-  public Profile(String userName, User user) {
-    this.userName = userName;
-    this.user = user;
+  public Long getId() {
+    return id;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public String getUserName() {
+    return userName;
+  }
+
+  public Long getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public User getUser() {
+    return user;
   }
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  public Address getAddress() {
+    return address;
   }
 }

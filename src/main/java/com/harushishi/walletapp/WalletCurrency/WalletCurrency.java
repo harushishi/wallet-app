@@ -22,13 +22,36 @@ public class WalletCurrency {
   private Float quantity;
 
   @ManyToOne
-  private Wallet wallet;
-
-  @ManyToOne()
   @JoinColumn(name = "currency_id")
   private Currency currency;
 
+  @ManyToOne
+  @JoinColumn(name = "wallet_id")
+  private Wallet wallet;
+
+  public Long getId() {
+    return id;
+  }
+
+  public Float getQuantity() {
+    return quantity;
+  }
+
+  public Currency getCurrency() {
+    return currency;
+  }
+
   public void setCurrency(Currency currency) {
     this.currency = currency;
+  }
+
+  @Override
+  public String toString() {
+    return "WalletCurrency{" +
+        "id=" + id +
+        ", quantity=" + quantity +
+        ", currency=" + currency +
+        ", wallet=" + wallet +
+        '}';
   }
 }

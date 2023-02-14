@@ -1,6 +1,14 @@
 package com.harushishi.walletapp.Wallet;
 
+import com.harushishi.walletapp.WalletCurrency.WalletCurrency;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface WalletRepository extends JpaRepository <Wallet, Long> {
+import java.util.List;
+
+public interface WalletRepository extends JpaRepository<Wallet, Long> {
+
+  @Query("select w.walletCurrencies from Wallet w where w.user.id=:userId")
+  List<WalletCurrency> getUserCurrenciesById(@Param("userId") Long userId);
 }

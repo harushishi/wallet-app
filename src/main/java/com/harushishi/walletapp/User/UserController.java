@@ -18,9 +18,10 @@ public class UserController {
   public UserDTO getUser(@NonNull HttpServletRequest request) {
 
     var token = request.getHeader("Authorization").substring(7);
-    var user = service.getUser(token);
+    UserDTO user = service.getUser(token);
+
+    System.out.println(user);
 
     return user;
-
   }
 }

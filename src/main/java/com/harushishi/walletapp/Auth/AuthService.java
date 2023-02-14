@@ -2,6 +2,7 @@ package com.harushishi.walletapp.Auth;
 
 import com.harushishi.walletapp.Config.JwtService;
 import com.harushishi.walletapp.Currency.CurrencyRepository;
+import com.harushishi.walletapp.ErrorHandling.BadRequestException;
 import com.harushishi.walletapp.ErrorHandling.UniqueConstraintException;
 import com.harushishi.walletapp.Profile.ProfileRepository;
 import com.harushishi.walletapp.Wallet.Wallet;
@@ -11,8 +12,12 @@ import com.harushishi.walletapp.Profile.Profile;
 import com.harushishi.walletapp.User.UserRepository;
 import com.harushishi.walletapp.WalletCurrency.WalletCurrency;
 import com.harushishi.walletapp.WalletCurrency.WalletCurrencyRepository;
+
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
   private final UserRepository userRepository;
+
+  private final ProfileRepository profileRepository;
+
+  private final WalletRepository walletRepository;
   private final CurrencyRepository currencyRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -42,34 +51,36 @@ public class AuthService {
           .role(Role.USER)
           .build();
 
+      userRepository.save(user);
+
       var profile = Profile.builder()
           .user(user)
           .userName(user.getUsername())
           .build();
 
+      profileRepository.save(profile);
+
       var wallet = Wallet.builder()
           .user(user)
           .build();
 
-      var defaultCurrency = WalletCurrency.builder()
+      var ars = WalletCurrency.builder()
           .currency(currencyRepository.findByShortName("ARS"))
           .quantity((float) 0)
+          .wallet(wallet)
           .build();
 
-      var extraCurrency = WalletCurrency.builder()
+      var usd = WalletCurrency.builder()
           .currency(currencyRepository.findByShortName("USD"))
           .quantity((float) 0)
+          .wallet(wallet)
           .build();
 
-      wallet.setWalletCurrency(defaultCurrency);
-      wallet.setWalletCurrency(extraCurrency);
-      user.setProfile(profile);
-      user.setWallet(wallet);
-      profile.setUser(user);
-      wallet.setUser(user);
+      List<WalletCurrency> walletCurrencies = wallet.getWalletCurrencies();
+      walletCurrencies.add(ars);
+      walletCurrencies.add(usd);
 
-
-      userRepository.save(user);
+      walletRepository.save(wallet);
 
       var token = jwtService.generateToken(user);
 
@@ -78,7 +89,9 @@ public class AuthService {
           .build();
 
     } catch (Exception error) {
-
+      if (error.getClass().equals(BadCredentialsException.class)) {
+        throw new BadRequestException("Wrong credentials");
+      }
       throw error;
 
     }
@@ -101,6 +114,8 @@ public class AuthService {
     return AuthenticationResponse.builder()
         .token(token)
         .build();
+
   }
 }
+
 

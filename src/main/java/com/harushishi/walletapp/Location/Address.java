@@ -1,6 +1,7 @@
 package com.harushishi.walletapp.Location;
 
 import com.harushishi.walletapp.Profile.Profile;
+import com.harushishi.walletapp.User.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -27,6 +28,35 @@ public class Address {
   @Column(name = "number", nullable = false)
   private String number;
 
-  @OneToOne(mappedBy = "address")
+  @OneToOne
+  @JoinColumn(name = "profile_id")
   private Profile profile;
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getCountry() {
+    return country;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public Long getZipCode() {
+    return zipCode;
+  }
+
+  public String getStreet() {
+    return street;
+  }
+
+  public String getNumber() {
+    return number;
+  }
+
+  public Profile getProfile() {
+    return profile;
+  }
 }

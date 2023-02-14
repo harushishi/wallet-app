@@ -25,11 +25,29 @@ public class Currency {
 
   @Column(name = "shortName")
   private String shortName;
-  @OneToMany(mappedBy = "currency", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<WalletCurrency> walletCurrencies;
+
+  private String currency;
+
+  public Currency(String name, String symbol) {
+    this.name = name;
+    this.shortName = shortName;
+    this.currency = shortName;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getShortName() {
+    return shortName;
   }
 
   public void setShortName(String shortName) {

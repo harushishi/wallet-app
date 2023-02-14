@@ -5,13 +5,14 @@ import com.harushishi.walletapp.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.collection.spi.PersistentBag;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "wallets")
@@ -21,24 +22,41 @@ public class Wallet {
   @GeneratedValue
   private Long id;
 
-  @OneToOne(mappedBy = "wallet")
+  @OneToOne
+  @JoinColumn(name = "user_id")
   private User user;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "wallet_id")
-  private List<WalletCurrency> wallet_currencies;
+  @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<WalletCurrency> walletCurrencies;
 
-  public Wallet() {
-    this.wallet_currencies = new ArrayList<>();
+  public Wallet(User user) {
+
+    this.user = user;
+
+
+    walletCurrencies = new ArrayList<>();
+
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public User getUser() {
+    return user;
   }
 
   public void setUser(User user) {
     this.user = user;
   }
 
-  public void setWalletCurrency(WalletCurrency walletCurrency) {
-    if (this.wallet_currencies == null) {
-      this.wallet_currencies = new ArrayList<>();
+  public List<WalletCurrency> getWalletCurrencies() {
+    if (walletCurrencies == null) {
+      walletCurrencies = new ArrayList<>();
     }
-    this.wallet_currencies.add(walletCurrency);
+    return walletCurrencies;
+  }
+
+  public void setWalletCurrencies(ArrayList<WalletCurrency> walletCurrencies) {
+    this.walletCurrencies = walletCurrencies;
   }
 }

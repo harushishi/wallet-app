@@ -1,26 +1,34 @@
 package com.harushishi.walletapp.User;
 
 import com.harushishi.walletapp.Config.JwtService;
+import com.harushishi.walletapp.Wallet.WalletRepository;
+import com.harushishi.walletapp.WalletCurrency.WalletCurrency;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
   private final UserRepository repository;
+
+  private final WalletRepository wRepository;
   private final JwtService jwtService;
 
   public UserDTO getUser(String token) {
 
     Claims userInfo = jwtService.extractAllClaims(token);
 
-    UserDTO result = repository.getUserById(Long.valueOf(userInfo.getId()));
+    UserDTO user = repository.getUserById(Long.valueOf(userInfo.getId()));
 
-    System.out.println(result);
+    List<WalletCurrency> currencies = wRepository.getUserCurrenciesById(Long.valueOf(userInfo.getId()));
 
-    return result;
+    user.setWalletCurrencies(currencies);
+
+    return user;
   }
 
 }

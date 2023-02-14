@@ -29,12 +29,10 @@ public class User implements UserDetails {
   @Column(name = "password", nullable = false)
   private String password;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "profile_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Profile profile;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "wallet_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Wallet wallet;
   @Enumerated(EnumType.STRING)
   private Role role;
@@ -55,6 +53,7 @@ public class User implements UserDetails {
 
   public void setProfile(Profile profile) {
     this.profile = profile;
+    profile.setUser(this);
   }
 
   public void setWallet(Wallet wallet) {
