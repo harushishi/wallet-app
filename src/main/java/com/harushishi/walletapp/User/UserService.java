@@ -15,6 +15,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +24,20 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+  private static final String STRING_KEY_PREFIX = "conversion:";
   private final UserRepository repository;
   private final WalletRepository wRepository;
   private final CurrencyRepository cRepository;
   private final WalletCurrencyRepository wcRepository;
   private final JwtService jwtService;
   private final RestTemplate restTemplate;
+  @Autowired
+  private RedisTemplate<String, String> template;
   @Qualifier("getCONVERSION_BASEURL")
   @Autowired
   private String CONVERSION_BASEURL;
@@ -48,6 +53,39 @@ public class UserService {
     user.setWallet_currencies(currencies);
 
     return user;
+  }
+
+  public ExchangeDTO convert(String token, String from, String to) {
+
+    Claims userInfo = jwtService.extractAllClaims(token);
+    UserDTO user = repository.getUserById(Long.valueOf(userInfo.getId()));
+
+    String key = (user.getId() + from + to);
+    String cache = template.opsForValue().get(STRING_KEY_PREFIX + key);
+
+
+    if (cache != null) {
+
+      return ExchangeDTO.builder()
+          .from(from)
+          .to(to)
+          .total(0.0)
+          .rate(Double.parseDouble(cache))
+          .build();
+
+    } else {
+      Double rate = calculateRate(from, to);
+
+      template.opsForValue().set(STRING_KEY_PREFIX + key, String.valueOf(rate));
+      template.expire(STRING_KEY_PREFIX + key, 90, TimeUnit.SECONDS);
+
+      return ExchangeDTO.builder()
+          .from(from)
+          .to(to)
+          .total(0.0)
+          .rate(rate)
+          .build();
+    }
   }
 
   public WalletCurrency deposit(String token, String currency, Double quantity) {

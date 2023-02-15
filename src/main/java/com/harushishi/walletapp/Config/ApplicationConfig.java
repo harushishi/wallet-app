@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 @RequiredArgsConstructor
@@ -66,6 +68,14 @@ public class ApplicationConfig {
   @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
+  }
+
+  @Bean
+  public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
+    RedisTemplate<?, ?> template = new RedisTemplate<>();
+    template.setConnectionFactory(connectionFactory);
+
+    return template;
   }
 
 

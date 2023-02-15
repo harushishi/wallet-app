@@ -15,9 +15,7 @@ import java.text.DecimalFormat;
 public class ExchangeDTO {
   private String from;
   private String to;
-
   private Double total;
-
   private Double rate;
 
   public ExchangeDTO(String from, String to, Double total, Double rate) {
