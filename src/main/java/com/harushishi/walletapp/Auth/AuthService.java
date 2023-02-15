@@ -55,7 +55,7 @@ public class AuthService {
 
       var profile = Profile.builder()
           .user(user)
-          .userName(user.getUsername())
+          .username(user.getUsername())
           .build();
 
       profileRepository.save(profile);
@@ -64,21 +64,16 @@ public class AuthService {
           .user(user)
           .build();
 
+      //todo: depending on something (maybe timezone?) identify which currency user should have as default.
+
       var ars = WalletCurrency.builder()
           .currency(currencyRepository.findByShortName("ARS"))
-          .quantity((float) 0)
+          .quantity(0.0)
           .wallet(wallet)
           .build();
 
-      var usd = WalletCurrency.builder()
-          .currency(currencyRepository.findByShortName("USD"))
-          .quantity((float) 0)
-          .wallet(wallet)
-          .build();
-
-      List<WalletCurrency> walletCurrencies = wallet.getWalletCurrencies();
+      List<WalletCurrency> walletCurrencies = wallet.getWallet_currencies();
       walletCurrencies.add(ars);
-      walletCurrencies.add(usd);
 
       walletRepository.save(wallet);
 

@@ -31,6 +31,16 @@ public class CurrencyInitializer {
       btc.setName("Bitcoin");
       btc.setShortName("BTC");
       currencyRepository.save(btc);
+
+      Currency eth = new Currency();
+      btc.setName("Ethereum");
+      btc.setShortName("ETH");
+      currencyRepository.save(btc);
+
+      Currency bnb = new Currency();
+      btc.setName("Binance Coin");
+      btc.setShortName("BNB");
+      currencyRepository.save(bnb);
     }
   }
 }

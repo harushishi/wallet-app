@@ -21,7 +21,7 @@ public class UserDTO {
   private Role role;
   private ProfileDTO profile;
   private Long wallet_id;
-  private List<WalletCurrency> walletCurrencies;
+  private List<WalletCurrency> wallet_currencies;
 
   public UserDTO(Long id, String email, Role role, Long pId, String fullName,
                  String userName, Long phoneNumber, Long wId) {
@@ -72,27 +72,27 @@ public class UserDTO {
     this.wallet_id = wallet_id;
   }
 
-  public List<WalletCurrency> getWalletCurrencies() {
-    return walletCurrencies;
+  public List<WalletCurrency> getWallet_currencies() {
+    return wallet_currencies;
   }
 
-  public void setWalletCurrencies(List<WalletCurrency> walletCurrencies) {
-    this.walletCurrencies = walletCurrencies;
+  public void setWallet_currencies(List<WalletCurrency> wallet_currencies) {
+    this.wallet_currencies = wallet_currencies;
   }
 
   public static class ProfileDTO {
     private long id;
-    private String fullName;
+    private String full_name;
 
-    private String userName;
+    private String username;
 
-    private Long phoneNumber;
+    private Long phone_number;
 
-    public ProfileDTO(Long pId, String fullName, String userName, Long phoneNumber) {
+    public ProfileDTO(Long pId, String full_name, String username, Long phone_number) {
       this.id = pId;
-      this.fullName = fullName;
-      this.userName = userName;
-      this.phoneNumber = phoneNumber;
+      this.full_name = full_name;
+      this.username = username;
+      this.phone_number = phone_number;
     }
 
     public long getId() {
@@ -103,28 +103,28 @@ public class UserDTO {
       this.id = id;
     }
 
-    public String getFullName() {
-      return fullName;
+    public String getFull_name() {
+      return full_name;
     }
 
-    public void setFullName(String fullName) {
-      this.fullName = fullName;
+    public void setFull_name(String full_name) {
+      this.full_name = full_name;
     }
 
-    public String getUserName() {
-      return userName;
+    public String getUsername() {
+      return username;
     }
 
-    public void setUserName(String userName) {
-      this.userName = userName;
+    public void setUsername(String username) {
+      this.username = username;
     }
 
-    public Long getPhoneNumber() {
-      return phoneNumber;
+    public Long getPhone_number() {
+      return phone_number;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
-      this.phoneNumber = phoneNumber;
+    public void setPhone_number(Long phone_number) {
+      this.phone_number = phone_number;
     }
   }
 

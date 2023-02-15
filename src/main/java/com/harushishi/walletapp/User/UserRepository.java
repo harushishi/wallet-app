@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByEmail(String email);
 
-  @Query("select new com.harushishi.walletapp.User.UserDTO(u.id, u.email, u.role, p.id, p.fullName," +
-      " p.userName, p.phoneNumber, w.id) " +
+  @Query("select new com.harushishi.walletapp.User.UserDTO(u.id, u.email, u.role, p.id, p.full_name," +
+      " p.username, p.phone_number, w.id) " +
       "from User u join u.profile as p join u.wallet as w where u.id=:userId")
   UserDTO getUserById(@Param("userId") Long userId);
 }

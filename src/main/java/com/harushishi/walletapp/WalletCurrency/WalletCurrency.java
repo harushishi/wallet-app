@@ -19,7 +19,7 @@ public class WalletCurrency {
   private Long id;
 
   @Column(name = "quantity")
-  private Float quantity;
+  private Double quantity;
 
   @ManyToOne
   @JoinColumn(name = "currency_id")
@@ -33,8 +33,12 @@ public class WalletCurrency {
     return id;
   }
 
-  public Float getQuantity() {
+  public Double getQuantity() {
     return quantity;
+  }
+
+  public void setQuantity(Double quantity) {
+    this.quantity = quantity;
   }
 
   public Currency getCurrency() {

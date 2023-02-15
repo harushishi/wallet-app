@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.hibernate.collection.spi.PersistentBag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +25,14 @@ public class Wallet {
   @JoinColumn(name = "user_id")
   private User user;
   @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<WalletCurrency> walletCurrencies;
+  private List<WalletCurrency> wallet_currencies;
 
   public Wallet(User user) {
 
     this.user = user;
 
 
-    walletCurrencies = new ArrayList<>();
+    wallet_currencies = new ArrayList<>();
 
   }
 
@@ -49,14 +48,14 @@ public class Wallet {
     this.user = user;
   }
 
-  public List<WalletCurrency> getWalletCurrencies() {
-    if (walletCurrencies == null) {
-      walletCurrencies = new ArrayList<>();
+  public List<WalletCurrency> getWallet_currencies() {
+    if (wallet_currencies == null) {
+      wallet_currencies = new ArrayList<>();
     }
-    return walletCurrencies;
+    return wallet_currencies;
   }
 
-  public void setWalletCurrencies(ArrayList<WalletCurrency> walletCurrencies) {
-    this.walletCurrencies = walletCurrencies;
+  public void setWallet_currencies(ArrayList<WalletCurrency> walletCurrencies) {
+    this.wallet_currencies = walletCurrencies;
   }
 }

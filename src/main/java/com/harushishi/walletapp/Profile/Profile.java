@@ -5,7 +5,6 @@ import com.harushishi.walletapp.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
@@ -19,11 +18,11 @@ public class Profile {
   @GeneratedValue
   private Long id;
   @Column(name = "full_name")
-  private String fullName;
+  private String full_name;
   @Column(name = "username", nullable = false, unique = true)
-  private String userName;
+  private String username;
   @Column(name = "phone_number", unique = true)
-  private Long phoneNumber;
+  private Long phone_number;
   @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
@@ -34,16 +33,16 @@ public class Profile {
     return id;
   }
 
-  public String getFullName() {
-    return fullName;
+  public String getFull_name() {
+    return full_name;
   }
 
-  public String getUserName() {
-    return userName;
+  public String getUsername() {
+    return username;
   }
 
-  public Long getPhoneNumber() {
-    return phoneNumber;
+  public Long getPhone_number() {
+    return phone_number;
   }
 
   public User getUser() {

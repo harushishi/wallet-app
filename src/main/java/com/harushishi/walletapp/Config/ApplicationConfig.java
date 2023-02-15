@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @RequiredArgsConstructor
@@ -23,9 +24,17 @@ public class ApplicationConfig {
   @Value("${keys.jwt_secret}")
   private String SECRET_KEY;
 
+  @Value("${keys.conversion_url}")
+  private String CONVERSION_BASEURL;
+
   @Bean
   public String getSECRET_KEY() {
     return SECRET_KEY;
+  }
+
+  @Bean
+  public String getCONVERSION_BASEURL() {
+    return CONVERSION_BASEURL;
   }
 
   @Bean
@@ -51,6 +60,12 @@ public class ApplicationConfig {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+
+  @Bean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
   }
 
 

@@ -1,7 +1,6 @@
 package com.harushishi.walletapp.Location;
 
 import com.harushishi.walletapp.Profile.Profile;
-import com.harushishi.walletapp.User.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,7 +19,7 @@ public class Address {
   private String city;
 
   @Column(name = "zip_code", nullable = false)
-  private Long zipCode;
+  private Long zip_code;
 
   @Column(name = "street", nullable = false)
   private String street;
@@ -44,8 +43,8 @@ public class Address {
     return city;
   }
 
-  public Long getZipCode() {
-    return zipCode;
+  public Long getZip_code() {
+    return zip_code;
   }
 
   public String getStreet() {

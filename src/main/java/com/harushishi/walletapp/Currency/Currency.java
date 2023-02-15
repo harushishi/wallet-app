@@ -1,13 +1,10 @@
 package com.harushishi.walletapp.Currency;
 
-import com.harushishi.walletapp.WalletCurrency.WalletCurrency;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Builder
@@ -24,13 +21,14 @@ public class Currency {
   private String name;
 
   @Column(name = "shortName")
+  @JsonProperty("short_name")
   private String shortName;
 
   private String currency;
 
   public Currency(String name, String symbol) {
     this.name = name;
-    this.shortName = shortName;
+    this.shortName = symbol;
     this.currency = shortName;
   }
 

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
-  @Query("select w.walletCurrencies from Wallet w where w.user.id=:userId")
+  @Query("select w.wallet_currencies from Wallet w where w.user.id=:userId")
   List<WalletCurrency> getUserCurrenciesById(@Param("userId") Long userId);
+
+  Wallet getWalletById(Long id);
 }
